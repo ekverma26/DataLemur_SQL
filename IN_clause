@@ -1,0 +1,46 @@
+# SQL Query: Filtering Pharmacy Sales Data
+
+## Problem Statement
+Use the `IN` SQL command to find data on medicines:
+1. Which were manufactured by either **Roche, Bayer, or AstraZeneca**.
+2. **Did not sell between 55,000 and 550,000 units**.
+
+Output the **manufacturer name, drug name, and the number of units sold** for all the medicines that match this criteria.
+
+## Table Schema
+
+| Column Name    | Type      |
+|---------------|----------|
+| product_id    | integer  |
+| units_sold   | integer  |
+| total_sales   | decimal  |
+| cogs          | decimal  |
+| manufacturer  | varchar  |
+| drug          | varchar  |
+
+## Example Input
+
+| product_id | units_sold | total_sales | cogs | manufacturer  | drug           |
+|------------|-----------|-------------|------|--------------|---------------|
+| 9          | 37410     | 293452.54   | 208876.01 | Eli Lilly   | Zyprexa       |
+| 34         | 94698     | 600997.19   | 521182.16 | AstraZeneca | Surmontil     |
+| 61         | 77023     | 500101.61   | 419174.97 | Biogen      | Varicose Relief |
+| 136        | 144814    | 1084258     | 1006447.73 | Biogen     | Burkhart      |
+
+## Example Output
+
+| manufacturer  | drug            | units_sold |
+|--------------|----------------|------------|
+| Roche        | Topcare Tussin  | 51707      |
+| AstraZeneca  | Armour Thyroid  | 47310      |
+
+## SQL Query
+```sql
+SELECT manufacturer, drug, units_sold
+FROM pharmacy_sales 
+where manufacturer in ('Roche', 'Bayer', 'AstraZeneca')
+and units_sold not between 55000 and 550000;
+```
+
+[View the question on DataLemur](https://datalemur.com/questions/sql-in-practice-exercise)
+
