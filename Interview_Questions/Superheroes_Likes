@@ -1,0 +1,72 @@
+# 🦸‍♂️ Marvel Avengers Social Media Analysis
+
+## 📌 Task  
+Write a query to **categorize superheroes** based on their **average likes** as follows:
+
+- **Super Likes**: Avg. likes **≥ 15,000**
+- **Good Likes**: Avg. likes **between 5,000 and 14,999** (inclusive)
+- **Low Likes**: Avg. likes **< 5,000**
+
+### 🎯 Expected Output:
+Display the following details **sorted by avg_likes**:
+1. `actor` (Actor’s name)
+2. `character` (Character’s name)
+3. `platform` (Social media platform)
+4. `avg_likes` (Average likes count)
+5. `likes_category` (The assigned category)
+
+---
+
+## 📊 **Table Schema: `marvel_avengers`**  
+| Column Name       | Type            | Description  |
+|------------------|---------------|--------------|
+| actor           | varchar        | Actor portraying the Marvel character |
+| character       | varchar        | Character name |
+| superhero_alias | varchar        | Superhero alias |
+| platform        | varchar        | Social media platform |
+| followers      | integer        | Followers/subscribers count |
+| posts          | integer        | Total number of posts |
+| engagement_rate | decimal(5,2)    | Engagement rate (%) |
+| avg_likes      | integer        | Avg. likes per post |
+| avg_comments   | integer        | Avg. comments per post |
+
+---
+
+## 📝 **Example Input:**
+| actor              | character         | superhero_alias | platform  | followers | posts | engagement_rate | avg_likes | avg_comments |
+|--------------------|------------------|----------------|-----------|-----------|-------|----------------|-----------|-------------|
+| Robert Downey Jr. | Tony Stark       | Iron Man      | Instagram | 500000    | 200   | 8.20           | 12000     | 800         |
+| Chris Evans       | Steve Rogers     | Captain America | Twitter   | 300000    | 150   | 6.50           | 8000      | 500         |
+| Scarlett Johansson | Natasha Romanoff | Black Widow   | Instagram | 700000    | 300   | 7.80           | 15000     | 1000        |
+| Chris Hemsworth   | Thor             | Thor          | YouTube   | 400000    | 100   | 9.10           | 20000     | 1200        |
+| Mark Ruffalo      | Bruce Banner     | Hulk          | Twitter   | 200000    | 80    | 5.30           | 6000      | 400         |
+
+---
+
+## 🎯 **Expected Output:**
+| actor              | character         | platform  | avg_likes | likes_category |
+|--------------------|------------------|-----------|-----------|---------------|
+| Mark Ruffalo      | Bruce Banner     | Twitter   | 6000      | Good Likes    |
+| Chris Evans       | Steve Rogers     | Twitter   | 8000      | Good Likes    |
+| Robert Downey Jr. | Tony Stark       | Instagram | 12000     | Good Likes    |
+| Scarlett Johansson | Natasha Romanoff | Instagram | 15000     | Super Likes   |
+| Chris Hemsworth   | Thor             | YouTube   | 20000     | Super Likes   |
+
+---
+
+## 🧐 **Explanation:**  
+- **Super Likes**: **Scarlett Johansson (Black Widow) & Chris Hemsworth (Thor)** since they have `avg_likes ≥ 15,000`.  
+- **Good Likes**: **Robert Downey Jr. (Iron Man), Chris Evans (Captain America), Mark Ruffalo (Hulk)** as they have `avg_likes between 5,000 and 14,999`.  
+
+🚀 **The dataset may have different inputs & outputs – this is just an example!**  
+
+
+SQL QUERY:
+SELECT actor,character, platform, avg_likes,
+CASE
+when avg_likes>= 15000 THEN 'Super Likes'
+when avg_likes BETWEEN 5000 and 14999 THEN 'Good Likes'
+when avg_likes<5000 THEN 'Low Likes'
+END as category
+FROM marvel_avengers 
+order by avg_likes DESC;
