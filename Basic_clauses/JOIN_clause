@@ -1,0 +1,66 @@
+# 📈 Robinhood User & Trade Analysis  
+
+## 📌 Task  
+Write a SQL query that **joins the `trades` table with the `users` table** on the `user_id` field to retrieve all trade details along with user information.
+
+### 🎯 Expected Output:
+Output **all columns** from both tables.
+
+---
+
+## 🗄 **Table Schema**  
+
+### 📜 `trades` Table  
+| Column Name | Type | Description |
+|-------------|------|-------------|
+| order_id    | integer | Unique trade order ID |
+| user_id     | integer | Unique user ID (FK) |
+| price       | decimal | Trade price per unit |
+| quantity    | integer | Number of stocks traded |
+| status      | string ('Completed', 'Cancelled') | Trade status |
+| timestamp   | datetime | Trade execution time |
+
+#### 📝 Example Input:
+| order_id | user_id | price | quantity | status | timestamp |
+|----------|--------|------|----------|----------|---------------------|
+| 100101   | 111    | 9.80 | 10       | Cancelled  | 08/17/2022 12:00:00 |
+| 100102   | 111    | 10.00 | 10       | Completed  | 08/17/2022 12:00:00 |
+| 100259   | 148    | 5.10 | 35       | Completed  | 08/25/2022 12:00:00 |
+
+---
+
+### 📜 `users` Table  
+| Column Name | Type | Description |
+|-------------|------|-------------|
+| user_id     | integer | Unique user ID (PK) |
+| city        | string  | User's city |
+| email       | string  | User's email |
+| signup_date | datetime | User's sign-up date |
+
+#### 📝 Example Input:
+| user_id | city | email | signup_date |
+|---------|------|----------------------|---------------------|
+| 111     | San Francisco | rrok10@gmail.com | 08/03/2021 12:00:00 |
+| 148     | Boston | sailor9820@gmail.com | 08/20/2021 12:00:00 |
+
+---
+
+## 🎯 **Expected Output**
+| order_id | user_id | quantity | status | date | price | user_id | city | email | signup_date |
+|----------|--------|----------|----------|---------------------|------|--------|-------------|---------------------|
+| 100102   | 111    | 10       | Completed  | 08/17/2022 12:00:00 | 10.00 | 111 | San Francisco | rrok10@gmail.com | 08/03/2021 12:00:00 |
+| 100101   | 111    | 10       | Cancelled  | 08/17/2022 12:00:00 | 9.80 | 111 | San Francisco | rrok10@gmail.com | 08/03/2021 12:00:00 |
+| 100259   | 148    | 35       | Completed  | 08/25/2022 12:00:00 | 5.10 | 148 | Boston | sailor9820@gmail.com | 08/20/2021 12:00:00 |
+
+---
+
+## 🧐 **Explanation:**  
+Each trade in `trades` is **joined** with user details from `users` using `user_id`.  
+
+🚀 **The dataset may have different inputs & outputs – this is just an example!**  
+
+
+SQL QUERY:
+SELECT * FROM 
+trades as t JOIN users as u 
+on t.user_id = u.user_id;
