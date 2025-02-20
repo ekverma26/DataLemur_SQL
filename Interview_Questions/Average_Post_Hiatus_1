@@ -1,0 +1,58 @@
+# Problem Statement  
+Given a table of Facebook posts, for each user who posted **at least twice in 2021**, write a query to find the number of days between each user’s **first post of the year** and **last post of the year** in 2021.  
+
+Output the `user_id` and the number of days between their first and last post.  
+
+---
+
+## Tables  
+
+### `posts` Table  
+
+| Column Name    | Type      |  
+|---------------|----------|  
+| user_id       | integer  |  
+| post_id       | integer  |  
+| post_content  | text     |  
+| post_date     | timestamp |  
+
+#### Example Input  
+
+| user_id | post_id | post_content                                              | post_date             |  
+|---------|--------|-----------------------------------------------------------|------------------------|  
+| 151652  | 599415 | Need a hug                                                | 07/10/2021 12:00:00   |  
+| 661093  | 624356 | Bed. Class 8-12. Work 12-3. Gym 3-5 or 6...               | 07/29/2021 13:00:00   |  
+| 004239  | 784254 | Happy 4th of July!                                        | 07/04/2021 11:00:00   |  
+| 661093  | 442560 | Just going to cry myself to sleep after watching Marley...| 07/08/2021 14:00:00   |  
+| 151652  | 111766 | I'm so done with covid - need travelling ASAP!            | 07/12/2021 19:00:00   |  
+
+---
+
+## Expected Output  
+
+| user_id | days_between |  
+|---------|-------------|  
+| 151652  | 2           |  
+| 661093  | 21          |  
+
+---
+
+## Explanation  
+- The **first post** and **last post** for each user in 2021 are determined.  
+- The difference in days between these two dates is calculated.  
+- Only users who posted **at least twice in 2021** are considered.  
+
+### Breakdown of Example  
+- **User `151652`** posted on **07/10/2021** (first post) and **07/12/2021** (last post) → **2 days difference**  
+- **User `661093`** posted on **07/08/2021** (first post) and **07/29/2021** (last post) → **21 days difference**  
+
+The dataset you are querying against may have different input & output - this is just an example! 🚀
+
+
+SQL QUERY:
+SELECT user_id, 
+max(post_date :: DATE) - min(post_date :: DATE) as days_between
+FROM posts
+where date_part('year', post_date :: DATE) = 2021
+GROUP BY user_id
+having count(post_id)>1;
