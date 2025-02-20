@@ -1,0 +1,53 @@
+# 📺 Viewership Analysis by Device Type  
+
+## 📌 Task  
+Write a query to **calculate total viewership** for:
+1. **Laptops** (`laptop_views`)
+2. **Mobile devices** (`mobile_views`), where **mobile** includes both **tablet** and **phone** viewership.
+
+### 🎯 Expected Output:
+Output two columns:  
+- `laptop_views`: Total count of laptop views  
+- `mobile_views`: Total count of tablet + phone views  
+
+---
+
+## 📊 **Table Schema: `viewership`**  
+| Column Name  | Type    | Description  |
+|-------------|--------|--------------|
+| user_id     | integer | Unique user ID |
+| device_type | string  | Device category: **'laptop', 'tablet', 'phone'** |
+| view_time   | timestamp | Timestamp of the view |
+
+---
+
+## 📝 **Example Input:**
+| user_id | device_type | view_time |
+|---------|------------|-----------|
+| 123     | tablet     | 01/02/2022 00:00:00 |
+| 125     | laptop     | 01/07/2022 00:00:00 |
+| 128     | laptop     | 02/09/2022 00:00:00 |
+| 129     | phone      | 02/09/2022 00:00:00 |
+| 145     | tablet     | 02/24/2022 00:00:00 |
+
+---
+
+## 🎯 **Expected Output:**
+| laptop_views | mobile_views |
+|--------------|-------------|
+| 2            | 3           |
+
+---
+
+## 🧐 **Explanation:**  
+- **Laptops**: `2 views` (users **125, 128**)  
+- **Mobile Devices** (Tablet + Phone): `3 views` (users **123, 129, 145**)  
+
+🚀 **The dataset may have different inputs & outputs – this is just an example!**  
+
+
+SQL QUERY:
+SELECT 
+sum(CASE WHEN device_type= 'laptop' then 1 else 0 end) as laptop_views,
+sum(CASE WHEN device_type in ('tablet', 'phone') then 1 else 0 end) as mobile_views
+FROM viewership;
